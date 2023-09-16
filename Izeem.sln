@@ -5,13 +5,13 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F4732EBB-2E1B-48D9-B96A-98996289888E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Izeem.API", "src\Izeem.API\Izeem.API.csproj", "{7A67844B-EDE2-4714-9626-BEFFA9274939}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Izeem.API", "src\Izeem.API\Izeem.API.csproj", "{7A67844B-EDE2-4714-9626-BEFFA9274939}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Izeem.Domain", "src\Izeem.Domain\Izeem.Domain.csproj", "{17FA0E09-CD07-4F77-A448-7552D1D38178}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Izeem.Domain", "src\Izeem.Domain\Izeem.Domain.csproj", "{17FA0E09-CD07-4F77-A448-7552D1D38178}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Izeem.DAL", "src\Izeem.DAL\Izeem.DAL.csproj", "{BA43DB9F-7689-44BA-81C9-C0C7664C12D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Izeem.DAL", "src\Izeem.DAL\Izeem.DAL.csproj", "{BA43DB9F-7689-44BA-81C9-C0C7664C12D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Izeem.Service", "src\Izeem.Service\Izeem.Service.csproj", "{2C3506DF-9E3E-4B8B-B01D-7596C38AD387}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Izeem.Service", "src\Izeem.Service\Izeem.Service.csproj", "{2C3506DF-9E3E-4B8B-B01D-7596C38AD387}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
