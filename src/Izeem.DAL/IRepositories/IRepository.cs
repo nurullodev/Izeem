@@ -1,11 +1,16 @@
-﻿namespace Izeem.DAL.IRepositories;
+﻿using Izeem.Domain.Commons;
+using System.Linq.Expressions;
 
-public interface IRepository<TEntity>
+namespace Izeem.DAL.IRepositories;
+
+public interface IRepository<TEntity> where TEntity : BaseEntity
 {
-    Task<int> InsertAsync(TEntity entity);
-    Task<int> UpdateAsync(TEntity entity);
-    Task<bool> DeleteAsync(TEntity entity);
-    Task<TEntity> SelectAsync(long id);
-    IQueryable<TEntity> SelectAll();
-    Task<long> CountAsync();
+    ValueTask<TEntity> AddAsync(TEntity entity);
+    TEntity Update(TEntity entity);
+    void Delete(TEntity entity);
+    void Destroy(TEntity entity);
+    ValueTask<TEntity> SelectAsync(Expression<Func<TEntity, bool>> expression, string[] includes = null);
+    IQueryable<TEntity> SelectAll(Expression<Func<TEntity, bool>> expression = null, 
+        bool isNoTracked = true , string[] includes = null);
+    ValueTask<bool> SaveAsync();
 }
