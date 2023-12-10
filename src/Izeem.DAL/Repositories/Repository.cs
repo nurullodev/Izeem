@@ -1,9 +1,9 @@
 ﻿using Izeem.DAL.Contexts;
-using Izeem.Domain.Commons;
-using System.Linq.Expressions;
 using Izeem.DAL.IRepositories;
+using Izeem.Domain.Commons;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq.Expressions;
 
 namespace Izeem.DAL.Repositories;
 
@@ -53,7 +53,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
         return await entities.FirstOrDefaultAsync();
     }
 
-    public IQueryable<TEntity> SelectAll(Expression<Func<TEntity, bool>> expression = null, 
+    public IQueryable<TEntity> SelectAll(Expression<Func<TEntity, bool>> expression = null,
         bool isNoTracked = true, string[] includes = null)
     {
         IQueryable<TEntity> entities = expression == null ? _dbSet.AsQueryable()
@@ -67,7 +67,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
 
         return entities;
     }
-   
+
     public async ValueTask<bool> SaveAsync()
         => await _dbContext.SaveChangesAsync() >= 0;
 }
