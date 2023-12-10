@@ -9,13 +9,7 @@ using Izeem.Service.DTOs.Users;
 using Izeem.Service.Exceptions;
 using Izeem.Service.Extensions;
 using Izeem.Service.Interfaces.Users;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Izeem.Service.Services.Users;
 
@@ -113,6 +107,7 @@ public class UserService : IUserService
 
         _userRepository.Delete(existUser);
         await _userRepository.SaveAsync();
+
         return true;
     }
 

@@ -10,7 +10,7 @@ public interface IRepository<TEntity> where TEntity : BaseEntity
     void Delete(TEntity entity);
     void Destroy(TEntity entity);
     ValueTask<TEntity> SelectAsync(Expression<Func<TEntity, bool>> expression, string[] includes = null);
-    IQueryable<TEntity> SelectAll(Expression<Func<TEntity, bool>> expression = null, 
-        bool isNoTracked = true , string[] includes = null);
+    IQueryable<TEntity> SelectAll(Expression<Func<TEntity, bool>> expression = null,
+        bool isNoTracked = true, string[] includes = null);
     ValueTask<bool> SaveAsync();
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Izeem.Service.Commons.Security;
+﻿namespace Izeem.Service.Commons.Security;
 
 public class PasswordHasher
 {
