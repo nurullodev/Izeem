@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-
-namespace Izeem.API.Extensions;
+﻿namespace Izeem.API.Extensions;
 
 public static class JwtConfiguration
 {
