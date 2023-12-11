@@ -81,7 +81,7 @@ public static class ServiceExtension
 
         //Supplier
         services.AddScoped<IVehicleService, VehicleService>();
-        services.AddScoped<ISupplierService, SupplierService>();    
+        services.AddScoped<ISupplierService, SupplierService>();
         #endregion
     }
 }

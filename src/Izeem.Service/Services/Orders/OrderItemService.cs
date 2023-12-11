@@ -1,37 +1,66 @@
-﻿using Izeem.Service.DTOs.Orders;
+﻿using AutoMapper;
+using Izeem.DAL.IRepositories;
+using Izeem.Domain.Entities.Orders;
+using Izeem.Service.DTOs.Orders;
+using Izeem.Service.Exceptions;
 using Izeem.Service.Interfaces.Orders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Izeem.Service.Services.Orders;
 
 public class OrderItemService : IOrderItemService
 {
-    public Task<OrderItemResultDto> AddAsync(OrderItemCreationDto dto)
+    private readonly IRepository<OrderItem> _orderItemRepository;
+    private readonly IMapper _mapper;
+
+    public OrderItemService(IRepository<OrderItem> orderItemRepository, IMapper mapper)
     {
-        throw new NotImplementedException();
+        _orderItemRepository = orderItemRepository;
+        _mapper = mapper;
     }
 
-    public Task<OrderItemResultDto> ModifyAsync(OrderItemUpdateDto dto)
+    public async Task<OrderItemResultDto> AddAsync(OrderItemCreationDto dto)
     {
-        throw new NotImplementedException();
+        var orderItem = _mapper.Map<OrderItem>(dto);
+        await _orderItemRepository.AddAsync(orderItem);
+        await _orderItemRepository.SaveAsync();
+
+        return _mapper.Map<OrderItemResultDto>(orderItem);
     }
 
-    public Task<bool> RemoveAsync(long id)
+    public async Task<OrderItemResultDto> ModifyAsync(OrderItemUpdateDto dto)
     {
-        throw new NotImplementedException();
+        var existingOrderItem = await _orderItemRepository.SelectAsync(order => order.Id.Equals(dto.Id))
+             ?? throw new IzeemException(404, "Order item not found");
+
+        _mapper.Map(dto, existingOrderItem);
+        _orderItemRepository.Update(existingOrderItem);
+        await _orderItemRepository.SaveAsync();
+
+        return _mapper.Map<OrderItemResultDto>(existingOrderItem);
     }
 
-    public Task<IEnumerable<OrderItemResultDto>> RetrieveAllAsync()
+    public async Task<bool> RemoveAsync(long id)
     {
-        throw new NotImplementedException();
+        var existingOrderItem = await _orderItemRepository.SelectAsync(order => order.Id.Equals(id))
+            ?? throw new IzeemException(404, "Order item not found");
+
+        _orderItemRepository.Delete(existingOrderItem);
+        await _orderItemRepository.SaveAsync();
+
+        return true;
     }
 
-    public Task<OrderItemResultDto> RetrieveByIdAsync(long id)
+    public async Task<IEnumerable<OrderItemResultDto>> RetrieveAllAsync()
     {
-        throw new NotImplementedException();
+        var orderItems = _orderItemRepository.SelectAll();
+        return _mapper.Map<IEnumerable<OrderItemResultDto>>(orderItems);
+    }
+
+    public async Task<OrderItemResultDto> RetrieveByIdAsync(long id)
+    {
+        var orderItem = await _orderItemRepository.SelectAsync(order => order.Id.Equals(id))
+            ?? throw new IzeemException(404, "Order item not found");
+
+        return _mapper.Map<OrderItemResultDto>(orderItem);
     }
 }
