@@ -1,6 +1,6 @@
-﻿namespace Izeem.Service.DTOs.Attachments;
+﻿namespace Izeem.Service.DTOs.Assets;
 
-public class AttachmentResultDto
+public class AssetResultDto
 {
     public long Id { get; set; }
     public string FileName { get; set; }

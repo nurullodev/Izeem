@@ -1,5 +1,5 @@
 ﻿using Izeem.Domain.Commons;
-using System.Net.Mail;
+using Izeem.Domain.Entities.Assets;
 
 namespace Izeem.Domain.Entities.Suppliers;
 
@@ -10,6 +10,6 @@ public class Vehicle : Auditable
     public string CarNumber { get; set; }
     public string Color { get; set; }
 
-    public long? AttachmentId { get; set; }
-    public Attachment Attachment { get; set; }
+    public long? AssetId { get; set; }
+    public Asset Asset { get; set; }
 }

@@ -8,4 +8,3 @@ public class ProductCategory : Auditable
 
     public ICollection<Product> Products { get; set; }
 }
-

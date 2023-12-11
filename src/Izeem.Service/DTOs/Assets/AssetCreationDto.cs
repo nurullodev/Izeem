@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Izeem.Service.DTOs.Attachments;
+namespace Izeem.Service.DTOs.Assets;
 
-public class AttachmentCreationDto
+public class AssetCreationDto
 {
     public IFormFile FormFile { get; set; }
 }
