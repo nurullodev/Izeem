@@ -23,7 +23,7 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public async Task<UserResultDto> CreateAsync(UserCreationDto dto)
+    public async Task<UserResultDto> AddAsync(UserCreationDto dto)
     {
         var existUser = await _userRepository.SelectAsync(user => user.Email.Equals(dto.Email));
         if (existUser is not null)
@@ -43,7 +43,7 @@ public class UserService : IUserService
         return _mapper.Map<UserResultDto>(mappedUser);
     }
 
-    public async Task<UserResultDto> UpdateAsync(long id, UserUpdateDto dto)
+    public async Task<UserResultDto> ModifyAsync(long id, UserUpdateDto dto)
     {
         var existUser = await _userRepository.SelectAsync(user => user.Id.Equals(id))
             ?? throw new IzeemException(404, "This user is not found");
@@ -100,7 +100,7 @@ public class UserService : IUserService
         return _mapper.Map<UserResultDto>(existUser);
     }
 
-    public async Task<bool> DeleteAsync(long id)
+    public async Task<bool> RemoveAsync(long id)
     {
         var existUser = await _userRepository.SelectAsync(user => user.Id.Equals(id))
            ?? throw new IzeemException(404, "This user is not found");
@@ -111,7 +111,7 @@ public class UserService : IUserService
         return true;
     }
 
-    public async Task<UserResultDto> GetByIdAsync(long id)
+    public async Task<UserResultDto> RetrieveByIdAsync(long id)
     {
         var existUser = await _userRepository.SelectAsync(user => user.Id.Equals(id))
            ?? throw new IzeemException(404, "This user is not found");
@@ -119,7 +119,7 @@ public class UserService : IUserService
         return _mapper.Map<UserResultDto>(existUser);
     }
 
-    public async Task<IEnumerable<UserResultDto>> GetAllAsync(PaginationParams pagination, string search = null)
+    public async Task<IEnumerable<UserResultDto>> RetrieveAllAsync(PaginationParams pagination, string search = null)
     {
         var users = _userRepository.SelectAll();
         if (!string.IsNullOrEmpty(search))
