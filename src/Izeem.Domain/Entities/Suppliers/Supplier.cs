@@ -1,5 +1,5 @@
 ﻿using Izeem.Domain.Commons;
-using System.Net.Mail;
+using Izeem.Domain.Entities.Assets;
 
 namespace Izeem.Domain.Entities.Suppliers;
 
@@ -12,6 +12,6 @@ public class Supplier : Auditable
     public long VehicleId { get; set; }
     public Vehicle Vehicle { get; set; }
 
-    public long? AttachmentId { get; set; }
-    public Attachment Attachment { get; set; }
+    public long? AssetId { get; set; }
+    public Asset Asset { get; set; }
 }
