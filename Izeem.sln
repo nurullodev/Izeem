@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Izeem.Domain", "src\Izeem.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Izeem.DAL", "src\Izeem.DAL\Izeem.DAL.csproj", "{BA43DB9F-7689-44BA-81C9-C0C7664C12D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Izeem.Service", "src\Izeem.Service\Izeem.Service.csproj", "{295696CA-8A96-476F-9FBE-5F8865A83769}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Izeem.Service", "src\Izeem.Service\Izeem.Service.csproj", "{295696CA-8A96-476F-9FBE-5F8865A83769}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Izeem.Desktop", "src\Izeem.Desktop\Izeem.Desktop.csproj", "{38DC8491-EAA8-47D5-8D47-12495DCF6C41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{295696CA-8A96-476F-9FBE-5F8865A83769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{295696CA-8A96-476F-9FBE-5F8865A83769}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{295696CA-8A96-476F-9FBE-5F8865A83769}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38DC8491-EAA8-47D5-8D47-12495DCF6C41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38DC8491-EAA8-47D5-8D47-12495DCF6C41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38DC8491-EAA8-47D5-8D47-12495DCF6C41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38DC8491-EAA8-47D5-8D47-12495DCF6C41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 		{17FA0E09-CD07-4F77-A448-7552D1D38178} = {F4732EBB-2E1B-48D9-B96A-98996289888E}
 		{BA43DB9F-7689-44BA-81C9-C0C7664C12D6} = {F4732EBB-2E1B-48D9-B96A-98996289888E}
 		{295696CA-8A96-476F-9FBE-5F8865A83769} = {F4732EBB-2E1B-48D9-B96A-98996289888E}
+		{38DC8491-EAA8-47D5-8D47-12495DCF6C41} = {F4732EBB-2E1B-48D9-B96A-98996289888E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FB735B40-A65D-49C7-A86C-36C933481444}
