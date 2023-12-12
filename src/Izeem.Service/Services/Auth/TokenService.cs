@@ -1,4 +1,5 @@
 ﻿
+using Izeem.DAL.Commons;
 using Izeem.DAL.IRepositories;
 using Izeem.Domain.Entities.Users;
 using Izeem.Service.Commons.Helpers;
