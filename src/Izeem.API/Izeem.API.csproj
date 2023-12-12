@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Izeem.Service\Izeem.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

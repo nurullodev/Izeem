@@ -16,7 +16,7 @@ public class ProductsController : BaseController
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> PostAsync(ProductCreationDto dto)
+    public async Task<IActionResult> PostAsync([FromForm]  ProductCreationDto dto)
         => Ok(new Response
         {
             StatusCode = 200,
@@ -26,7 +26,7 @@ public class ProductsController : BaseController
 
 
     [HttpPut("update")]
-    public async Task<IActionResult> PutAsync(ProductUpdateDto dto)
+    public async Task<IActionResult> PutAsync([FromForm] ProductUpdateDto dto)
         => Ok(new Response
         {
             StatusCode = 200,
@@ -63,25 +63,5 @@ public class ProductsController : BaseController
             StatusCode = 200,
             Message = "Success",
             Data = await _productService.RetrieveAllAsync(pagination)
-        });
-
-
-    [HttpPost("image-upload")]
-    public async Task<IActionResult> ImageUploadAsync(long productId, [FromForm] AssetCreationDto dto)
-        => Ok(new Response
-        {
-            StatusCode = 200,
-            Message = "Success",
-            Data = await _productService.ImageUploadAsync(productId, dto)
-        });
-
-
-    [HttpPost("update-image")]
-    public async Task<IActionResult> UpdateImageAsync(long productId, [FromForm] AssetCreationDto dto)
-        => Ok(new Response
-        {
-            StatusCode = 200,
-            Message = "Success",
-            Data = await _productService.ModifyImageAsync(productId, dto)
         });
 }

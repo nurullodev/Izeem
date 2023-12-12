@@ -35,7 +35,6 @@ public class UserService : IUserService
         mappedUser.Role = UserRole.Customer;
         mappedUser.Salt = result.Salt;
         mappedUser.PasswordHash = result.Hash;
-        mappedUser.CreatedAt = TimeHelper.GetDateTime();
 
         await _userRepository.AddAsync(mappedUser);
         await _userRepository.SaveAsync();
@@ -57,7 +56,6 @@ public class UserService : IUserService
         var mappedUser = _mapper.Map(dto, existUser);
         mappedUser.Id = id;
         mappedUser.Role = existUser.Role;
-        mappedUser.UpdatedAt = TimeHelper.GetDateTime();
 
         _userRepository.Update(mappedUser);
         await _userRepository.SaveAsync();
@@ -77,7 +75,6 @@ public class UserService : IUserService
         var passwords = PasswordHasher.Hash(security.NewPassword);
         existUser.PasswordHash = passwords.Hash;
         existUser.Salt = passwords.Salt;
-        existUser.UpdatedAt = TimeHelper.GetDateTime();
 
         _userRepository.Update(existUser);
         await _userRepository.SaveAsync();
@@ -92,7 +89,6 @@ public class UserService : IUserService
 
         existUser.Id = id;
         existUser.Role = role;
-        existUser.UpdatedAt = TimeHelper.GetDateTime();
 
         _userRepository.Update(existUser);
         await _userRepository.SaveAsync();

@@ -1,4 +1,5 @@
-﻿using Izeem.DAL.Contexts;
+﻿using Izeem.DAL.Commons;
+using Izeem.DAL.Contexts;
 using Izeem.DAL.IRepositories;
 using Izeem.Domain.Commons;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace Izeem.DAL.Repositories;
 
-public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
+public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditable
 {
     private readonly DbSet<TEntity> _dbSet;
     private readonly IzeemDbContext _dbContext;
@@ -19,6 +20,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
 
     public async ValueTask<TEntity> AddAsync(TEntity entity)
     {
+        entity.CreatedAt = TimeHelper.GetDateTime();
         EntityEntry<TEntity> entry = await _dbSet.AddAsync(entity);
 
         return entry.Entity;
@@ -26,6 +28,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
 
     public TEntity Update(TEntity entity)
     {
+        entity.UpdatedAt = TimeHelper.GetDateTime();
         EntityEntry<TEntity> entry = _dbContext.Update(entity);
 
         return entry.Entity;

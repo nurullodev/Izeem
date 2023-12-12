@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Izeem.DAL.IRepositories;
 using Izeem.Domain.Configurations;
+using Izeem.Domain.Entities.Assets;
 using Izeem.Domain.Entities.Orders;
 using Izeem.Domain.Entities.Products;
 using Izeem.Service.DTOs.Assets;
@@ -18,20 +19,20 @@ namespace Izeem.Service.Services.Products;
 public class ProductService : IProductService
 {
     private readonly IMapper _mapper;
-    private readonly IAssetService _AssetService;
+    private readonly IAssetService _assetService;
     private readonly IRepository<Product> _productRepository;
     private readonly IRepository<OrderItem> _orderItemRepository;
     private readonly IRepository<ProductCategory> _productCategoryRepository;
     public ProductService(
         IMapper mapper,
-        IAssetService AssetService,
+        IAssetService assetService,
         IRepository<Product> productRepository,
         IRepository<ProductCategory> productCategoryRepository,
         IRepository<OrderItem> orderItemRepository)
     {
         _mapper = mapper;
         _productRepository = productRepository;
-        _AssetService = AssetService;
+        _assetService = assetService;
         _productCategoryRepository = productCategoryRepository;
         _orderItemRepository = orderItemRepository;
     }
@@ -45,8 +46,24 @@ public class ProductService : IProductService
         var category = await _productCategoryRepository.SelectAsync(p => p.Id.Equals(dto.CategoryId))
             ?? throw new IzeemException(404, "This category is not found");
 
-        var mappedProduct = _mapper.Map<Product>(dto);
+        var image = new Asset();
+        if (dto.Asset is not null)
+        {
+            image = await _assetService.UploadAsync(new AssetCreationDto
+            {
+                FormFile = dto.Asset
+            });
+        }
+        var mappedProduct = new Product();
+        mappedProduct.Name = dto.Name;
+        mappedProduct.CategoryId= dto.CategoryId;
+        mappedProduct.Category = category;
+        mappedProduct.Price = dto.Price;
+        mappedProduct.Description = dto.Description;
         mappedProduct.CategoryId = category.Id;
+        mappedProduct.AssetId = image.Id; 
+        mappedProduct.Asset = image;
+
         await _productRepository.AddAsync(mappedProduct);
         await _productRepository.SaveAsync();
         mappedProduct.Category = category;
@@ -63,10 +80,27 @@ public class ProductService : IProductService
         var category = await _productCategoryRepository.SelectAsync(p => p.Id.Equals(dto.CategoryId))
             ?? throw new IzeemException(404, "This category is not found");
 
-        product.CategoryId = category.Id;
-        product.Category = category;
-        _mapper.Map(dto, product);
-        _productRepository.Update(product);
+        var image = new Asset();
+        if (dto.Asset is not null)
+        {
+            image = await _assetService.UploadAsync(new AssetCreationDto
+            {
+                FormFile = dto.Asset
+            });
+        }
+
+        var mappedProduct = new Product();
+        mappedProduct.Name = dto.Name;
+        mappedProduct.CategoryId = dto.CategoryId;
+        mappedProduct.Category = category;
+        mappedProduct.Price = dto.Price;
+        mappedProduct.Description = dto.Description;
+        mappedProduct.CategoryId = category.Id;
+        mappedProduct.AssetId = image.Id;
+        mappedProduct.Asset = image;
+        mappedProduct.Id = product.Id;
+
+        _productRepository.Update(mappedProduct);
         await _productRepository.SaveAsync();
 
         return _mapper.Map<ProductResultDto>(product);
@@ -105,38 +139,6 @@ public class ProductService : IProductService
         var product = await _productRepository.SelectAsync(p => p.Id.Equals(id),
             includes: new[] { "Category", "Asset" })
             ?? throw new IzeemException(404, "This product is not found");
-
-        return _mapper.Map<ProductResultDto>(product);
-    }
-
-    public async Task<ProductResultDto> ImageUploadAsync(long productId, AssetCreationDto dto)
-    {
-        var product = await _productRepository.SelectAsync(p => p.Id.Equals(productId), includes: new[] { "Category" })
-            ?? throw new IzeemException(404, "This product is not found");
-
-        var createdAsset = await _AssetService.UploadAsync(dto);
-        product.AssetId = createdAsset.Id;
-        product.Asset = createdAsset;
-
-        _productRepository.Update(product);
-        await _productRepository.SaveAsync();
-
-        return _mapper.Map<ProductResultDto>(product);
-    }
-
-    public async Task<ProductResultDto> ModifyImageAsync(long productId, AssetCreationDto dto)
-    {
-        var product = await _productRepository.SelectAsync(p => p.Id.Equals(productId),
-            includes: new[] { "Category", "Asset" })
-            ?? throw new IzeemException(404, "This product is not found");
-
-        var result = await _AssetService.RemoveAsync(product.Asset);
-        var createdAsset = await _AssetService.UploadAsync(dto);
-
-        product.AssetId = createdAsset.Id;
-        product.Asset = createdAsset;
-        _productRepository.Update(product);
-        await _productRepository.SaveAsync();
 
         return _mapper.Map<ProductResultDto>(product);
     }
