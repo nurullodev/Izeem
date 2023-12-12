@@ -3,6 +3,7 @@ using Izeem.DAL.IRepositories;
 using Izeem.DAL.Repositories;
 using Izeem.Service.Interfaces.Addresses;
 using Izeem.Service.Interfaces.Assets;
+using Izeem.Service.Interfaces.Auth;
 using Izeem.Service.Interfaces.Carts;
 using Izeem.Service.Interfaces.Orders;
 using Izeem.Service.Interfaces.Payments;
@@ -12,6 +13,7 @@ using Izeem.Service.Interfaces.Vehicles;
 using Izeem.Service.Mappers;
 using Izeem.Service.Services.Addresses;
 using Izeem.Service.Services.Assets;
+using Izeem.Service.Services.Auth;
 using Izeem.Service.Services.Carts;
 using Izeem.Service.Services.Orders;
 using Izeem.Service.Services.Payments;
@@ -82,6 +84,10 @@ public static class ServiceExtension
         //Supplier
         services.AddScoped<IVehicleService, VehicleService>();
         services.AddScoped<ISupplierService, SupplierService>();
+
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ITokenService, TokenService>();
+
         #endregion
     }
 }
