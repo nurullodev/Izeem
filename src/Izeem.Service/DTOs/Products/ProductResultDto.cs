@@ -11,5 +11,5 @@ public class ProductResultDto
     public decimal Price { get; set; }
     public int SaleCount { get; set; }
     public ProductCategoryResultDto Category { get; set; }
-    public AssetResultDto Attachment { get; set; }
+    public AssetResultDto Asset { get; set; }
 }

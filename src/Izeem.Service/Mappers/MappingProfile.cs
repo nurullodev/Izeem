@@ -44,7 +44,7 @@ public class MappingProfile : Profile
 
         // Attachment
         CreateMap<AssetResultDto, Asset>().ReverseMap();
-
+        CreateMap<AssetCreationDto, Asset>().ReverseMap();
 
         //Vehicle
         CreateMap<Vehicle, VehicleResultDto>().ReverseMap();

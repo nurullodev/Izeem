@@ -1,4 +1,6 @@
-﻿namespace Izeem.Service.DTOs.Products;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Izeem.Service.DTOs.Products;
 
 public class ProductCreationDto
 {
@@ -6,4 +8,5 @@ public class ProductCreationDto
     public decimal Price { get; set; }
     public string Description { get; set; }
     public long CategoryId { get; set; }
+    public IFormFile Asset { get; set; } = null;
 }
