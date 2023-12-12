@@ -65,14 +65,14 @@ public class SupplierService : ISupplierService
 
     public async Task<IEnumerable<SupplierResultDto>> RetrieveAllAsync()
     {
-        var supplier = await _repository.SelectAll().ToListAsync();
+        var supplier = await _repository.SelectAll(includes: new[] { "Vehicle" } ).ToListAsync();
         var result = _mapper.Map<IEnumerable<SupplierResultDto>>(supplier);
         return result;
     }
 
     public async Task<SupplierResultDto> RetrieveByIdAsync(long id)
     {
-        var supplier = await _repository.SelectAsync(u => u.Id.Equals(id))
+        var supplier = await _repository.SelectAsync(u => u.Id.Equals(id), includes: new[] { "Vehicle" })
             ?? throw new IzeemException(404, $"This supplier is not found with ID = {id}");
 
         var result = _mapper.Map<SupplierResultDto>(supplier);
