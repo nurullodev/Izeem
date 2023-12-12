@@ -5,6 +5,7 @@ using Izeem.Service.Interfaces.Addresses;
 using Izeem.Service.Interfaces.Assets;
 using Izeem.Service.Interfaces.Auth;
 using Izeem.Service.Interfaces.Carts;
+using Izeem.Service.Interfaces.Notifications;
 using Izeem.Service.Interfaces.Orders;
 using Izeem.Service.Interfaces.Payments;
 using Izeem.Service.Interfaces.Products;
@@ -15,6 +16,7 @@ using Izeem.Service.Services.Addresses;
 using Izeem.Service.Services.Assets;
 using Izeem.Service.Services.Auth;
 using Izeem.Service.Services.Carts;
+using Izeem.Service.Services.Notification;
 using Izeem.Service.Services.Orders;
 using Izeem.Service.Services.Payments;
 using Izeem.Service.Services.Products;
@@ -87,6 +89,8 @@ public static class ServiceExtension
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IEmailsender, EmailSender>();
+
 
         #endregion
     }
