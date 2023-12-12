@@ -2,6 +2,8 @@
 using Izeem.DAL.Commons;
 using Izeem.DAL.IRepositories;
 using Izeem.Domain.Entities.Users;
+using Izeem.Domain.Enums;
+using Izeem.Service.Commons.Helpers;
 using Izeem.Service.Commons.Security;
 using Izeem.Service.DTOs;
 using Izeem.Service.DTOs.Login;
@@ -9,6 +11,7 @@ using Izeem.Service.DTOs.Users;
 using Izeem.Service.Exceptions;
 using Izeem.Service.Interfaces.Auth;
 using Izeem.Service.Interfaces.Notifications;
+using Izeem.Service.Interfaces.Users;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Izeem.Service.Services.Auth;
@@ -34,11 +37,13 @@ public class AuthService : IAuthService
     public AuthService(
         IMapper mapper,
         IEmailsender sender,
+        IUserService userService,
         IMemoryCache memoryCache,
         ITokenService tokenService,
         IRepository<User> userRepository
         )
     {
+        _userRepository = userRepository;
         _emailSender = sender;
         _mapper = mapper;
         _tokenService = tokenService;
@@ -59,6 +64,7 @@ public class AuthService : IAuthService
 
         LoginResultDto authResult = new LoginResultDto()
         {
+            Result = true,
             Token = token
         };
 
@@ -67,8 +73,10 @@ public class AuthService : IAuthService
 
     public async Task<(bool Result, int CachedMinutes)> RegisterAsync(UserRegisterDto dto)
     {
-        var existUser = await _userRepository.SelectAsync(user => user.Email.Equals(dto.Email))
-           ?? throw new IzeemException(404, "This user is not found");
+        var existUser = await _userRepository.SelectAsync(user => user.Email.Equals(dto.Email));
+        
+        if (existUser != null)
+            throw new IzeemException(404, "This user is not found");
 
         if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.Email, out UserRegisterDto registerDto))
         {
@@ -91,7 +99,7 @@ public class AuthService : IAuthService
             VerificationDto verificationDto = new VerificationDto();
             verificationDto.Attempt = 0;
             verificationDto.CreatedAt = TimeHelper.GetDateTime();
-            verificationDto.Code = 12345;//CodeGenerator.CodeGeneratorPhoneNumber();
+            verificationDto.Code = CodeGenerator.RandomCodeGenerator();
             _memoryCache.Set(email, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
 
             if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + email,
@@ -120,8 +128,43 @@ public class AuthService : IAuthService
         }
     }
 
-    public Task<(bool Result, string Token)> VerifyRegisterAsync(string email, int code)
+    public async Task<(bool Result, string Token)> VerifyRegisterAsync(string email, int code)
     {
-        throw new NotImplementedException();
+        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + email, out UserRegisterDto userRegisterDto))
+        {
+            if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + email, out VerificationDto verificationDto))
+            {
+                if (verificationDto.Attempt >= VERIFICATION_MAXIMUM_ATTEMPTS)
+                    throw new Exception();
+
+                else if (verificationDto.Code == code)
+                {
+                    var password = userRegisterDto.Password;
+                    var result = PasswordHasher.Hash(password);
+                    var mappedUser = _mapper.Map<User>(userRegisterDto);
+                    mappedUser.Salt = result.Salt;
+                    mappedUser.PasswordHash = result.Hash;
+                    mappedUser.CreatedAt = TimeHelper.GetDateTime();
+
+                    var user = await _userRepository.AddAsync(mappedUser);
+                    await _userRepository.SaveAsync();
+
+                    var token = await _tokenService.GenerateTokenAsync(user);
+
+                    return (Result: true, Token: token);
+                }
+                else
+                {
+                    _memoryCache.Remove(VERIFY_REGISTER_CACHE_KEY + email);
+                    verificationDto.Attempt++;
+                    _memoryCache.Set(VERIFY_REGISTER_CACHE_KEY + email, verificationDto,
+                        TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
+
+                    return (Result: false, Token: "");
+                }
+            }
+            else throw new Exception();
+        }
+        else throw new Exception();
     }
 }
