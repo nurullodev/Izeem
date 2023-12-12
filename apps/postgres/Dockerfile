@@ -1,0 +1,5 @@
+FROM postgres:latest
+
+ENV POSTGRES_USER postgres_admin
+ENV POSTGRES_PASSWORD 12qw!@QW
+ENV POSTGRES_DB Izeem-db
