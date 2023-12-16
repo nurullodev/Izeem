@@ -20,6 +20,7 @@ builder.Services.AddDbContext<IzeemDbContext>(options =>
 //AuthSwagger
 builder.ConfigureSwaggerAuth();
 builder.ConfigureJwtAuth();
+builder.ConfigureCORSPolicy();
 
 //Services
 builder.Services.AddCustomServices();
@@ -38,6 +39,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.ApplyMigrations();
+app.UseCors("AllowAll");
 
 app.InitAccessor();
 

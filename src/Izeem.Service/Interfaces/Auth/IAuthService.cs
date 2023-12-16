@@ -10,5 +10,9 @@ namespace Izeem.Service.Interfaces.Auth;
 
 public interface IAuthService
 {
+    public Task<(bool Result, int CachedMinutes)> RegisterAsync(UserRegisterDto dto);
+    public Task<(bool Result, int CachedVerificationMinutes)> SendCodeForRegisterAsync(string email);
+
+    public Task<(bool Result, string Token)> VerifyRegisterAsync(string email, int code);
     Task<LoginResultDto> LoginAsync(LoginDto dto);
 }
