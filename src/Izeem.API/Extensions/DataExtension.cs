@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Izeem.API.Extensions
 {
-    public static class DataExtensions
+    public static class DataExtension
     {
         public static void ApplyMigrations(this WebApplication app)
         {

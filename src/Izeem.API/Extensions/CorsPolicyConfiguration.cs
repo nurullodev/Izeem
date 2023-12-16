@@ -13,6 +13,7 @@ public static class CorsPolicyConfiguration
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             });
+
             option.AddPolicy("AllowHeaders", builder =>
             {
                 builder.WithOrigins(allowOrigins)

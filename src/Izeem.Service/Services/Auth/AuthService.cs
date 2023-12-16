@@ -7,6 +7,7 @@ using Izeem.Service.Commons.Helpers;
 using Izeem.Service.Commons.Security;
 using Izeem.Service.DTOs;
 using Izeem.Service.DTOs.Login;
+using Izeem.Service.DTOs.Register;
 using Izeem.Service.DTOs.Users;
 using Izeem.Service.Exceptions;
 using Izeem.Service.Interfaces.Auth;
@@ -129,16 +130,16 @@ public class AuthService : IAuthService
         }
     }
 
-    public async Task<(bool Result, string Token)> VerifyRegisterAsync(string email, int code)
+    public async Task<(bool Result, string Token)> VerifyRegisterAsync(VerfiCodeDto dto)
     {
-        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + email, out UserRegisterDto userRegisterDto))
+        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.Email, out UserRegisterDto userRegisterDto))
         {
-            if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + email, out VerificationDto verificationDto))
+            if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + dto.Email, out VerificationDto verificationDto))
             {
                 if (verificationDto.Attempt >= VERIFICATION_MAXIMUM_ATTEMPTS)
                     throw new Exception();
 
-                else if (verificationDto.Code == code)
+                else if (verificationDto.Code == dto.Code)
                 {
                     var password = userRegisterDto.Password;
                     var result = PasswordHasher.Hash(password);
@@ -156,9 +157,9 @@ public class AuthService : IAuthService
                 }
                 else
                 {
-                    _memoryCache.Remove(VERIFY_REGISTER_CACHE_KEY + email);
+                    _memoryCache.Remove(VERIFY_REGISTER_CACHE_KEY + dto.Email);
                     verificationDto.Attempt++;
-                    _memoryCache.Set(VERIFY_REGISTER_CACHE_KEY + email, verificationDto,
+                    _memoryCache.Set(VERIFY_REGISTER_CACHE_KEY + dto.Email, verificationDto,
                         TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
 
                     return (Result: false, Token: "");

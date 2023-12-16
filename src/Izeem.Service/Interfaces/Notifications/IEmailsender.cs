@@ -1,4 +1,4 @@
-﻿using Izeem.Service.DTOs;
+﻿using Izeem.Service.DTOs.Register;
 
 namespace Izeem.Service.Interfaces.Notifications
 {

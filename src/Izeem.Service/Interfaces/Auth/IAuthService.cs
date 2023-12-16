@@ -1,4 +1,5 @@
 ﻿using Izeem.Service.DTOs.Login;
+using Izeem.Service.DTOs.Register;
 using Izeem.Service.DTOs.Users;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,6 @@ public interface IAuthService
     public Task<(bool Result, int CachedMinutes)> RegisterAsync(UserRegisterDto dto);
     public Task<(bool Result, int CachedVerificationMinutes)> SendCodeForRegisterAsync(string email);
 
-    public Task<(bool Result, string Token)> VerifyRegisterAsync(string email, int code);
+    public Task<(bool Result, string Token)> VerifyRegisterAsync(VerfiCodeDto dto);
     Task<LoginResultDto> LoginAsync(LoginDto dto);
 }

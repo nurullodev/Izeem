@@ -1,4 +1,4 @@
-﻿using Izeem.Service.DTOs;
+﻿using Izeem.Service.DTOs.Register;
 using Izeem.Service.Interfaces.Notifications;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
