@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Izeem.API.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
     private IAuthService _authService;
@@ -16,7 +16,7 @@ public class AuthController : ControllerBase
         _authService = service;
     }
 
-    [HttpPost]
+    [HttpPost("login")]
     public async Task<IActionResult> LogindssdAsync([FromForm] LoginDto dto)
         => Ok( await _authService.LoginAsync(dto));
 }
