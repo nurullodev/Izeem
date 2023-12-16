@@ -18,7 +18,7 @@ To use Izeem, follow these steps:
 
 ## Usage
 
-Once the application is running, access it through your browser at `http://localhost:3000`. Here are some key functionalities:
+Once the application is running, access it through your browser at `http://localhost:IP address/domen`. Here are some key functionalities:
 
 - **Adding a Task**: Click on the "Add Task" button and fill in the details.
 - **Editing a Task**: Select a task and click on the "Edit" button to modify it.
