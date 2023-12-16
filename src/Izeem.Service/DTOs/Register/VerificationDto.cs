@@ -1,4 +1,4 @@
-﻿namespace Izeem.Service.DTOs;
+﻿namespace Izeem.Service.DTOs.Register;
 
 public class VerificationDto
 {
